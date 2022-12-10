@@ -6,6 +6,10 @@ plugins {
 }
 
 android {
+
+    def STRING = "String"
+    def BASE_URL = "BASE_URL"
+
     namespace 'com.example.numberfacts'
     compileSdk 33
 
@@ -17,6 +21,8 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField STRING, BASE_URL, "\"http://numbersapi.com\""
     }
 
     buildTypes {
@@ -38,6 +44,8 @@ android {
 ext {
     nav_version = '2.5.3'
     hilt = '2.44'
+    retrofit2 = '2.9.0'
+    okhttp3 = '4.9.1'
 }
 
 dependencies {
@@ -57,4 +65,9 @@ dependencies {
     //Hilt
     implementation "com.google.dagger:hilt-android:$hilt"
     kapt "com.google.dagger:hilt-android-compiler:$hilt"
+
+    //network
+    implementation "com.squareup.retrofit2:retrofit:$retrofit2"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit2"
+    implementation "com.squareup.okhttp3:logging-interceptor:$okhttp3"
 }
