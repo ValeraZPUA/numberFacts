@@ -55,6 +55,7 @@ ext {
     rxAndroid = '3.0.0'
     rxAdapter = '2.9.0'
     recyclerView = '1.2.1'
+    ext.room = '2.4.3'
 }
 
 dependencies {
@@ -88,4 +89,9 @@ dependencies {
 
     //Recycler view
     implementation "androidx.recyclerview:recyclerview:$recyclerView"
+
+    //Room
+    implementation "androidx.room:room-runtime:$room"
+    kapt "androidx.room:room-compiler:$room"
+    implementation "androidx.room:room-rxjava3:$room"
 }
