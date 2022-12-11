@@ -39,6 +39,10 @@ class MainFragment : Fragment() {
         binding.btnGetFact.setOnClickListener {
             viewModel.getNumberInfo(binding.etNumber.text.toString())
         }
+
+        binding.btnGetRandomFact.setOnClickListener {
+            viewModel.getRandomNumberInfo()
+        }
     }
 
     private fun setObservers() {

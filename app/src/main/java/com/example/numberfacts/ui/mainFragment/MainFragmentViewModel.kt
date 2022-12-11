@@ -4,7 +4,8 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.example.numberfacts.data.models.NumberItem
-import com.example.numberfacts.logic.GetNumberUseCase
+import com.example.numberfacts.logic.GetNumberFactUseCase
+import com.example.numberfacts.logic.GetRandomNumberFactUseCase
 import com.example.numberfacts.utils.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -13,7 +14,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainFragmentViewModel @Inject constructor(
-    private val getNumberUseCase: GetNumberUseCase
+    private val getNumberFactUseCase: GetNumberFactUseCase,
+    private val getRandomNumberFactUseCase: GetRandomNumberFactUseCase
 ) : ViewModel() {
 
     private val _noNumberEnteredError = SingleLiveEvent<Boolean>()
@@ -29,7 +31,7 @@ class MainFragmentViewModel @Inject constructor(
         if (number.isBlank()) {
             _noNumberEnteredError.value = true
         } else {
-            getNumberUseCase
+            getNumberFactUseCase
                 .getNumberInfo(number.toInt())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -44,6 +46,22 @@ class MainFragmentViewModel @Inject constructor(
                 )
         }
 
+    }
+
+    fun getRandomNumberInfo() {
+        getRandomNumberFactUseCase
+            .getRandomNumberFact()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                {
+                    _numberFact.value = it
+                },
+                {
+                    _commonError.value = true
+                    Log.e(this::class.java.simpleName, "getRandomNumberInfo: ${it.message}")
+                }
+            )
     }
 
 }

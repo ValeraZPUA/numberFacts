@@ -5,7 +5,7 @@ import com.example.numberfacts.data.models.NumberItem
 import io.reactivex.rxjava3.core.Single
 import javax.inject.Inject
 
-class GetNumberUseCase @Inject constructor(
+class GetNumberFactUseCase @Inject constructor(
     private val numbersRepo: NumbersRepo
 ) {
 
