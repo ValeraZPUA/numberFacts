@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.example.numberfacts.data.models.NumberItem
+import com.example.numberfacts.logic.GetHistoryNumberFactUseCase
 import com.example.numberfacts.logic.GetNumberFactUseCase
 import com.example.numberfacts.logic.GetRandomNumberFactUseCase
 import com.example.numberfacts.utils.SingleLiveEvent
@@ -15,7 +16,8 @@ import javax.inject.Inject
 @HiltViewModel
 class MainFragmentViewModel @Inject constructor(
     private val getNumberFactUseCase: GetNumberFactUseCase,
-    private val getRandomNumberFactUseCase: GetRandomNumberFactUseCase
+    private val getRandomNumberFactUseCase: GetRandomNumberFactUseCase,
+    private val getHistoryNumberFactUseCase: GetHistoryNumberFactUseCase
 ) : ViewModel() {
 
     private val _noNumberEnteredError = SingleLiveEvent<Boolean>()
@@ -26,6 +28,9 @@ class MainFragmentViewModel @Inject constructor(
 
     private val _numberFact = SingleLiveEvent<NumberItem>()
     val numberFact get() = _numberFact as LiveData<NumberItem>
+
+    private val _numberFactsHistory = SingleLiveEvent<List<NumberItem>>()
+    val numberFactsHistory get() = _numberFactsHistory as LiveData<List<NumberItem>>
 
     fun getNumberInfo(number: String) {
         if (number.isBlank()) {
@@ -56,6 +61,22 @@ class MainFragmentViewModel @Inject constructor(
             .subscribe(
                 {
                     _numberFact.value = it
+                },
+                {
+                    _commonError.value = true
+                    Log.e(this::class.java.simpleName, "getRandomNumberInfo: ${it.message}")
+                }
+            )
+    }
+
+    fun getHistory() {
+        getHistoryNumberFactUseCase
+            .getHistory()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                {
+                    _numberFactsHistory.value = it
                 },
                 {
                     _commonError.value = true

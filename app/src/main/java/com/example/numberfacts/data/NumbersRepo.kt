@@ -8,5 +8,6 @@ interface NumbersRepo {
     fun getNumberInfo(number: Int): Single<String>
     fun getRandomNumberInfo(): Single<String>
     fun saveNumberFact(numberFactEntity: NumberFactEntity)
+    fun getHistory(): Single<List<NumberFactEntity>>
 
 }

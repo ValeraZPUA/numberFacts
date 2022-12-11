@@ -17,4 +17,7 @@ interface NumberFactDao {
     @Query("SELECT * FROM ${Constants.FACTS_TABLE} WHERE number LIKE :number")
     fun getFactByNumber(number: Int): Single<NumberFactEntity>
 
+    @Query("SELECT * FROM ${Constants.FACTS_TABLE}")
+    fun getAllFacts(): Single<List<NumberFactEntity>>
+
 }

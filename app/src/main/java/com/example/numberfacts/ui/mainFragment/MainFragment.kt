@@ -9,16 +9,21 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.numberfacts.R
+import com.example.numberfacts.data.models.NumberItem
 import com.example.numberfacts.databinding.FragmentMainBinding
+import com.example.numberfacts.ui.mainFragment.tools.ItemDecorator
+import com.example.numberfacts.ui.mainFragment.tools.NumberFactAdapter
+import com.example.numberfacts.ui.mainFragment.tools.OnFactClickListener
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainFragment : Fragment() {
+class MainFragment : Fragment(), OnFactClickListener {
 
     private val viewModel: MainFragmentViewModel by viewModels()
 
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
+    private val numberFactHistoryAdapter: NumberFactAdapter by lazy { NumberFactAdapter(this) }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,9 +35,9 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         setListeners()
         setObservers()
+        getHistory()
     }
 
     private fun setListeners() {
@@ -51,12 +56,27 @@ class MainFragment : Fragment() {
         }
 
         viewModel.numberFact.observe(viewLifecycleOwner) {
+            binding.etNumber.text.clear()
             findNavController().navigate(MainFragmentDirections.actionMainFragmentToNumberInfoFragment(it.number, it.fact))
         }
 
         viewModel.noNumberEnteredError.observe(viewLifecycleOwner) {
             showToast(getString(R.string.enter_number_warning))
         }
+
+        viewModel.numberFactsHistory.observe(viewLifecycleOwner) {
+            setHistoryRecycler(it)
+        }
+    }
+
+    private fun setHistoryRecycler(numberItemList: List<NumberItem>) {
+        binding.rvHistory.adapter = numberFactHistoryAdapter
+        binding.rvHistory.addItemDecoration(ItemDecorator())
+        numberFactHistoryAdapter.submitList(numberItemList)
+    }
+
+    private fun getHistory() {
+        viewModel.getHistory()
     }
 
     private fun showToast(message: String) {
@@ -66,6 +86,10 @@ class MainFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onFactClicked(numberItem: NumberItem) {
+        findNavController().navigate(MainFragmentDirections.actionMainFragmentToNumberInfoFragment(numberItem.number, numberItem.fact))
     }
 
 }
