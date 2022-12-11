@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.numberfacts.R
 import com.example.numberfacts.data.models.NumberItem
 import com.example.numberfacts.databinding.FragmentMainBinding
+import com.example.numberfacts.ui.MainActivity
 import com.example.numberfacts.ui.mainFragment.tools.ItemDecorator
 import com.example.numberfacts.ui.mainFragment.tools.NumberFactAdapter
 import com.example.numberfacts.ui.mainFragment.tools.OnFactClickListener
@@ -38,6 +39,7 @@ class MainFragment : Fragment(), OnFactClickListener {
         setListeners()
         setObservers()
         getHistory()
+        (activity as MainActivity).isShowBackArrow(false)
     }
 
     private fun setListeners() {
