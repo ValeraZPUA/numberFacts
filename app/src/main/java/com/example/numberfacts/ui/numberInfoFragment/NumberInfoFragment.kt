@@ -5,12 +5,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.navArgs
 import com.example.numberfacts.databinding.FragmentNumberInfoBinding
 
 class NumberInfoFragment : Fragment() {
 
     private var _binding: FragmentNumberInfoBinding? = null
     private val binding get() = _binding!!
+    private val args: NumberInfoFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -23,6 +25,12 @@ class NumberInfoFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setDate()
+    }
+
+    private fun setDate() {
+        binding.tvNumber.text = args.number.toString()
+        binding.tvNumberFact.text = args.fact
     }
 
     override fun onDestroyView() {

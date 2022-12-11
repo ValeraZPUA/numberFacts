@@ -1,7 +1,11 @@
 package com.example.numberfacts.ui.mainFragment
 
+import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import com.example.numberfacts.data.models.NumberItem
 import com.example.numberfacts.logic.GetNumberUseCase
+import com.example.numberfacts.utils.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -12,19 +16,34 @@ class MainFragmentViewModel @Inject constructor(
     private val getNumberUseCase: GetNumberUseCase
 ) : ViewModel() {
 
-    fun getNumberInfo(number: Int) {
-        getNumberUseCase
-            .getNumberInfo(number)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                {
+    private val _noNumberEnteredError = SingleLiveEvent<Boolean>()
+    val noNumberEnteredError get() = _noNumberEnteredError as LiveData<Boolean>
 
-                },
-                {
+    private val _commonError = SingleLiveEvent<Boolean>()
+    val commonError get() = _commonError as LiveData<Boolean>
 
-                }
-            )
+    private val _numberFact = SingleLiveEvent<NumberItem>()
+    val numberFact get() = _numberFact as LiveData<NumberItem>
+
+    fun getNumberInfo(number: String) {
+        if (number.isBlank()) {
+            _noNumberEnteredError.value = true
+        } else {
+            getNumberUseCase
+                .getNumberInfo(number.toInt())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                    {
+                        _numberFact.value = it
+                    },
+                    {
+                        _commonError.value = true
+                        Log.e(this::class.java.simpleName, "getNumberInfo: ${it.message}")
+                    }
+                )
+        }
+
     }
 
 }

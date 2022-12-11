@@ -22,5 +22,14 @@
         android:id="@+id/numberInfoFragment"
         android:name="com.example.numberfacts.ui.numberInfoFragment.NumberInfoFragment"
         android:label="fragment_number_info"
-        tools:layout="@layout/fragment_number_info" />
+        tools:layout="@layout/fragment_number_info" >
+        <argument
+            android:name="number"
+            app:argType="integer"
+            android:defaultValue="-1" />
+        <argument
+            android:name="fact"
+            app:argType="string"
+            android:defaultValue='""' />
+    </fragment>
 </navigation>

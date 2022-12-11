@@ -3,6 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
     id 'com.google.dagger.hilt.android'
+    id("androidx.navigation.safeargs.kotlin")
 }
 
 android {
@@ -46,7 +47,6 @@ android {
 }
 
 ext {
-    nav_version = '2.5.3'
     hilt = '2.44'
     retrofit2 = '2.9.0'
     scalars = '2.9.0'
@@ -59,7 +59,7 @@ ext {
 
 dependencies {
 
-    implementation 'androidx.core:core-ktx:1.7.0'
+    implementation 'androidx.core:core-ktx:1.9.0'
     implementation 'androidx.appcompat:appcompat:1.5.1'
     implementation 'com.google.android.material:material:1.7.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
