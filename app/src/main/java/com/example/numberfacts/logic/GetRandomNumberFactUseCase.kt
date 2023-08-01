@@ -2,18 +2,19 @@ package com.example.numberfacts.logic
 
 import com.example.numberfacts.data.NumbersRepo
 import com.example.numberfacts.data.models.NumberItem
-import io.reactivex.rxjava3.core.Single
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class GetRandomNumberFactUseCase @Inject constructor(
     private val numbersRepo: NumbersRepo
 ) {
 
-    fun getRandomNumberFact(): Single<NumberItem> {
+    suspend fun getRandomNumberFact(): Flow<NumberItem> {
         return numbersRepo
             .getRandomNumberInfo()
-            .flatMap {
-                Single.just(generateNumberItem(it))
+            .map {
+                generateNumberItem(it)
             }
     }
 

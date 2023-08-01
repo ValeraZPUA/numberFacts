@@ -4,6 +4,8 @@ import com.example.numberfacts.api.RequestsApi
 import com.example.numberfacts.db.daos.NumberFactDao
 import com.example.numberfacts.db.entities.NumberFactEntity
 import io.reactivex.rxjava3.core.Single
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class NumbersRepoImpl @Inject constructor(
@@ -15,10 +17,10 @@ class NumbersRepoImpl @Inject constructor(
         return requestsApi
             .getNumberInfo(number)
     }
-
-    override fun getRandomNumberInfo(): Single<String> {
-        return requestsApi
-            .getRandomNumberInfo()
+    override suspend fun getRandomNumberInfo(): Flow<String> {
+        return flow {
+            emit(requestsApi.getRandomNumberInfoCor())
+        }
     }
 
     override fun saveNumberFact(numberFactEntity: NumberFactEntity) {

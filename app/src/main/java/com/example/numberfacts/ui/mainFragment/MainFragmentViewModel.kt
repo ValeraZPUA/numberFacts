@@ -3,6 +3,7 @@ package com.example.numberfacts.ui.mainFragment
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.numberfacts.data.models.NumberItem
 import com.example.numberfacts.logic.GetHistoryNumberFactUseCase
 import com.example.numberfacts.logic.GetNumberFactUseCase
@@ -11,6 +12,8 @@ import com.example.numberfacts.utils.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -54,19 +57,17 @@ class MainFragmentViewModel @Inject constructor(
     }
 
     fun getRandomNumberInfo() {
-        getRandomNumberFactUseCase
-            .getRandomNumberFact()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                {
-                    _numberFact.value = it
-                },
-                {
-                    _commonError.value = true
-                    Log.e(this::class.java.simpleName, "getRandomNumberInfo: ${it.message}")
-                }
-            )
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                getRandomNumberFactUseCase
+                    .getRandomNumberFact()
+                    .collect {
+                        _numberFact.postValue(it)
+                    }
+            } catch (e: java.lang.Exception) {
+                _commonError.value = true
+            }
+        }
     }
 
     fun getHistory() {

@@ -10,5 +10,5 @@ interface RequestsApi {
     fun getNumberInfo(@Path("number") number: Int): Single<String>
 
     @GET("/random/math")
-    fun getRandomNumberInfo(): Single<String>
+    suspend fun getRandomNumberInfoCor(): String
 }

@@ -87,6 +87,10 @@ dependencies {
     implementation "io.reactivex.rxjava3:rxandroid:$rxAndroid"
     implementation "com.squareup.retrofit2:adapter-rxjava3:$rxAdapter"
 
+    //Coroutines
+    implementation 'com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:0.9.2'
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1"
+
     //Recycler view
     implementation "androidx.recyclerview:recyclerview:$recyclerView"
 
