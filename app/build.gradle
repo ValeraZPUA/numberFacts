@@ -42,7 +42,12 @@ android {
     }
 
     buildFeatures {
+        compose true
         viewBinding true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.1"
     }
 
 }
@@ -99,4 +104,12 @@ dependencies {
     implementation "androidx.room:room-runtime:$room"
     ksp "androidx.room:room-compiler:$room"
     implementation "androidx.room:room-rxjava3:$room"
+
+    //Compose
+    implementation "androidx.compose.ui:ui:$compose_ui_version"
+    implementation "androidx.compose.material:material:$compose_ui_version"
+
+    //Compose Preview support
+    implementation "androidx.compose.ui:ui-tooling-preview:$compose_ui_version"
+    debugImplementation "androidx.compose.ui:ui-tooling:$compose_ui_version"
 }
