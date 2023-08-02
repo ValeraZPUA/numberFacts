@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.numberfacts.R
 import com.example.numberfacts.data.models.NumberItem
@@ -15,6 +16,7 @@ import com.example.numberfacts.ui.MainActivity
 import com.example.numberfacts.ui.mainFragment.tools.ItemDecorator
 import com.example.numberfacts.ui.mainFragment.tools.NumberFactAdapter
 import com.example.numberfacts.ui.mainFragment.tools.OnFactClickListener
+import com.example.numberfacts.utils.launchAndRepeatOn
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -44,11 +46,11 @@ class MainFragment : Fragment(), OnFactClickListener {
 
     private fun setListeners() {
         binding.btnGetFact.setOnClickListener {
-            viewModel.getNumberInfo(binding.etNumber.text.toString())
+            viewModel.getNumberFact(binding.etNumber.text.toString())
         }
 
         binding.btnGetRandomFact.setOnClickListener {
-            viewModel.getRandomNumberInfo()
+            viewModel.getRandomNumberFact()
         }
     }
 
@@ -57,9 +59,13 @@ class MainFragment : Fragment(), OnFactClickListener {
             showToast(getString(R.string.something_went_wrong))
         }
 
-        viewModel.numberFact.observe(viewLifecycleOwner) {
-            binding.etNumber.text.clear()
-            findNavController().navigate(MainFragmentDirections.actionMainFragmentToNumberInfoFragment(it.number, it.fact))
+        viewLifecycleOwner.launchAndRepeatOn(Lifecycle.State.STARTED) {
+            viewModel.numberFact.collect {
+                if (it is MainFragmentViewModel.NumberFactState.SuccessState) {
+                    binding.etNumber.text.clear()
+                    findNavController().navigate(MainFragmentDirections.actionMainFragmentToNumberInfoFragment(it.numberFact.number, it.numberFact.fact))
+                }
+            }
         }
 
         viewModel.noNumberEnteredError.observe(viewLifecycleOwner) {

@@ -1,5 +1,6 @@
 package com.example.numberfacts.ui.mainFragment
 
+import android.annotation.SuppressLint
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
@@ -13,6 +14,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -29,13 +32,14 @@ class MainFragmentViewModel @Inject constructor(
     private val _commonError = SingleLiveEvent<Boolean>()
     val commonError get() = _commonError as LiveData<Boolean>
 
-    private val _numberFact = SingleLiveEvent<NumberItem>()
-    val numberFact get() = _numberFact as LiveData<NumberItem>
+    val numberFact get() = _numberFact as SharedFlow<NumberFactState>
+    private val _numberFact = MutableSharedFlow<NumberFactState>(extraBufferCapacity = 1)
 
     private val _numberFactsHistory = SingleLiveEvent<List<NumberItem>>()
     val numberFactsHistory get() = _numberFactsHistory as LiveData<List<NumberItem>>
 
-    fun getNumberInfo(number: String) {
+    @SuppressLint("CheckResult")
+    fun getNumberFact(number: String) {
         if (number.isBlank()) {
             _noNumberEnteredError.value = true
         } else {
@@ -45,7 +49,7 @@ class MainFragmentViewModel @Inject constructor(
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                     {
-                        _numberFact.value = it
+                        _numberFact.tryEmit(NumberFactState.SuccessState(it))
                     },
                     {
                         _commonError.value = true
@@ -56,13 +60,13 @@ class MainFragmentViewModel @Inject constructor(
 
     }
 
-    fun getRandomNumberInfo() {
+    fun getRandomNumberFact() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 getRandomNumberFactUseCase
                     .getRandomNumberFact()
                     .collect {
-                        _numberFact.postValue(it)
+                        _numberFact.tryEmit(NumberFactState.SuccessState(it))
                     }
             } catch (e: java.lang.Exception) {
                 _commonError.value = true
@@ -70,6 +74,7 @@ class MainFragmentViewModel @Inject constructor(
         }
     }
 
+    @SuppressLint("CheckResult")
     fun getHistory() {
         getHistoryNumberFactUseCase
             .getHistory()
@@ -84,6 +89,18 @@ class MainFragmentViewModel @Inject constructor(
                     Log.e(this::class.java.simpleName, "getRandomNumberInfo: ${it.message}")
                 }
             )
+    }
+
+    sealed class NumberFactState {
+
+        data class SuccessState(
+            val numberFact: NumberItem
+        ) : NumberFactState()
+
+        data object EmptyState : NumberFactState()
+
+        data object ErrorState : NumberFactState()
+
     }
 
 }
