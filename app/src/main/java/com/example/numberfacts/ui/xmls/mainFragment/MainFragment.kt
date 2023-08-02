@@ -1,4 +1,4 @@
-package com.example.numberfacts.ui.mainFragment
+package com.example.numberfacts.ui.xmls.mainFragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,10 +12,10 @@ import androidx.navigation.fragment.findNavController
 import com.example.numberfacts.R
 import com.example.numberfacts.data.models.NumberItem
 import com.example.numberfacts.databinding.FragmentMainBinding
-import com.example.numberfacts.ui.MainActivity
-import com.example.numberfacts.ui.mainFragment.tools.ItemDecorator
-import com.example.numberfacts.ui.mainFragment.tools.NumberFactAdapter
-import com.example.numberfacts.ui.mainFragment.tools.OnFactClickListener
+import com.example.numberfacts.ui.xmls.MainActivity
+import com.example.numberfacts.ui.xmls.mainFragment.tools.ItemDecorator
+import com.example.numberfacts.ui.xmls.mainFragment.tools.NumberFactAdapter
+import com.example.numberfacts.ui.xmls.mainFragment.tools.OnFactClickListener
 import com.example.numberfacts.utils.launchAndRepeatOn
 import dagger.hilt.android.AndroidEntryPoint
 

@@ -1,4 +1,4 @@
-package com.example.numberfacts.ui.mainFragment.tools
+package com.example.numberfacts.ui.xmls.mainFragment.tools
 
 import android.graphics.Rect
 import android.util.TypedValue

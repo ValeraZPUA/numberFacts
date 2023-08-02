@@ -1,4 +1,4 @@
-package com.example.numberfacts.ui.mainFragment
+package com.example.numberfacts.ui.xmls.mainFragment
 
 import android.annotation.SuppressLint
 import android.util.Log

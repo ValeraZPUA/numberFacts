@@ -1,4 +1,4 @@
-package com.example.numberfacts.ui.numberInfoFragment
+package com.example.numberfacts.ui.xmls.numberInfoFragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.example.numberfacts.databinding.FragmentNumberInfoBinding
-import com.example.numberfacts.ui.MainActivity
+import com.example.numberfacts.ui.xmls.MainActivity
 
 class NumberInfoFragment : Fragment() {
 

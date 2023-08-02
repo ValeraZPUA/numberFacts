@@ -7,7 +7,7 @@
     android:padding="8dp"
     android:focusable="true"
     android:focusableInTouchMode="true"
-    tools:context=".ui.mainFragment.MainFragment">
+    tools:context=".ui.xmls.mainFragment.MainFragment">
 
     <EditText
         android:id="@+id/etNumber"

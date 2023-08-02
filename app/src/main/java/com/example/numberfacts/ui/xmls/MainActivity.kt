@@ -1,4 +1,4 @@
-package com.example.numberfacts.ui
+package com.example.numberfacts.ui.xmls
 
 import android.os.Bundle
 import android.view.MenuItem
