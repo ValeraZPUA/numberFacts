@@ -5,4 +5,5 @@
     <string name="get_fact_about_random_number">Get fact about random number</string>
     <string name="enter_number_warning">Enter number!</string>
     <string name="something_went_wrong">Something went wrong</string>
+    <string name="title_activity_main_compose">MainComposeActivity</string>
 </resources>
