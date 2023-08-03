@@ -1,4 +1,4 @@
-package com.example.numberfacts.ui.mainScreen
+package com.example.numberfacts.ui.screens.mainScreen
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -29,7 +29,7 @@ import com.example.numberfacts.R
 import com.example.numberfacts.data.models.NumberItem
 import com.example.numberfacts.ui.theme.PADDING_DEFAULT
 import com.example.numberfacts.ui.theme.Purple500
-import com.example.numberfacts.ui.views.NumberFactWidget
+import com.example.numberfacts.ui.widgetes.NumberFactWidget
 
 @ExperimentalMaterial3Api
 @Composable

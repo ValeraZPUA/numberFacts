@@ -1,4 +1,4 @@
-package com.example.numberfacts.ui.views
+package com.example.numberfacts.ui.widgetes
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
