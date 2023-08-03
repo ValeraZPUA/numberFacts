@@ -1,5 +1,6 @@
 package com.example.numberfacts.ui.widgetes
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -20,11 +21,15 @@ import com.example.numberfacts.ui.theme.PADDING_DEFAULT
 @Composable
 fun NumberFactWidget(
     number: Int,
-    fact: String
+    fact: String,
+    onItemClick: (number: Int, fact: String) -> Unit
 ) {
     Card(
         modifier = Modifier
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .clickable {
+                onItemClick(number, fact)
+            },
         elevation = CardDefaults.cardElevation(
             8.dp
         ),
@@ -57,13 +62,4 @@ fun NumberFactWidget(
         }
 
     }
-}
-
-@Preview
-@Composable
-fun NumberFactWidgetPreview() {
-    NumberFactWidget(
-        number = 5,
-        fact = "Some random fact about fiveas;dfka;sksfj;alskjf;laslskf;laskf;lasdkf"
-    )
 }

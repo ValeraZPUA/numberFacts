@@ -25,6 +25,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.example.numberfacts.R
 import com.example.numberfacts.data.models.NumberItem
 import com.example.numberfacts.ui.theme.PADDING_DEFAULT
@@ -33,7 +34,10 @@ import com.example.numberfacts.ui.widgetes.NumberFactWidget
 
 @ExperimentalMaterial3Api
 @Composable
-fun MainScreen(calculateTopPadding: Dp) {
+fun MainScreen(
+    calculateTopPadding: Dp,
+    navHostController: NavHostController
+) {
 
     var inputFieldState by remember {
         mutableStateOf("")
@@ -116,8 +120,10 @@ fun MainScreen(calculateTopPadding: Dp) {
             itemsIndexed(mockedListData) {index, item ->  
                 NumberFactWidget(
                     number = item.number,
-                    fact = item.fact
-                )
+                    fact = item.fact,
+                ) { number, fact ->
+                    navHostController.navigate("numberFact/${number}/${fact}")
+                }
                 if (index < mockedListData.lastIndex) {
                     Divider(
                         modifier = Modifier

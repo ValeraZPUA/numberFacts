@@ -11,6 +11,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.numberfacts.ui.theme.PADDING_DEFAULT
 import com.example.numberfacts.ui.theme.PADDING_LARGE
@@ -18,14 +20,15 @@ import com.example.numberfacts.ui.theme.PADDING_LARGE
 @Composable
 fun NumberFactScreen(
     number: Int,
-    fact: String
+    fact: String,
+    calculateTopPadding: Dp
 ) {
 
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(color = Color.White)
-            .padding(PADDING_DEFAULT),
+            .padding(PADDING_DEFAULT, calculateTopPadding + PADDING_DEFAULT, PADDING_DEFAULT, PADDING_DEFAULT),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
@@ -46,6 +49,7 @@ fun NumberFactScreen(
 fun NumberFactScreenPreview() {
     NumberFactScreen(
         number = 5,
-        fact = "alks;dflskf;asl kdf;alsdkf as;ldkf a;sddmf as;mdf;asddmf s;df kasd;fm asd"
+        fact = "alks;dflskf;asl kdf;alsdkf as;ldkf a;sddmf as;mdf;asddmf s;df kasd;fm asd",
+        calculateTopPadding = 0.dp
     )
 }
