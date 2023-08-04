@@ -3,20 +3,24 @@ package com.example.numberfacts.logic
 import com.example.numberfacts.data.NumbersRepo
 import com.example.numberfacts.data.models.NumberItem
 import com.example.numberfacts.db.entities.toNumberItem
-import io.reactivex.rxjava3.core.Single
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flowOf
 import javax.inject.Inject
 
 class GetHistoryNumberFactUseCase @Inject constructor(
     private val numbersRepo: NumbersRepo
 ) {
 
-    fun getHistory(): Single<List<NumberItem>> {
+    @ExperimentalCoroutinesApi
+    suspend fun getHistory(): Flow<List<NumberItem>> {
         return numbersRepo
             .getHistory()
-            .flatMap { numberFactEntityList ->
+            .flatMapLatest { numberFactEntityList ->
                 val numberItemList = arrayListOf<NumberItem>()
                 numberItemList.addAll(numberFactEntityList.map { it.toNumberItem() })
-                Single.just(numberItemList)
+                flowOf(numberItemList)
             }
     }
 

@@ -72,9 +72,9 @@ class MainFragment : Fragment(), OnFactClickListener {
             showToast(getString(R.string.enter_number_warning))
         }
 
-        viewModel.numberFactsHistory.observe(viewLifecycleOwner) {
+        /*viewModel.numberFactsHistory.observe(viewLifecycleOwner) {
             setHistoryRecycler(it)
-        }
+        }*/
     }
 
     private fun setHistoryRecycler(numberItemList: List<NumberItem>) {

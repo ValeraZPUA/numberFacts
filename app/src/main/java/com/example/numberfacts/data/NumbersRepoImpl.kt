@@ -28,7 +28,7 @@ class NumbersRepoImpl @Inject constructor(
             .insertFact(numberFactEntity)
     }
 
-    override fun getHistory(): Single<List<NumberFactEntity>> {
+    override suspend fun getHistory(): Flow<List<NumberFactEntity>> {
         return numberFactDao
             .getAllFacts()
     }

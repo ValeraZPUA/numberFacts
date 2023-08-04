@@ -9,6 +9,6 @@ interface NumbersRepo {
     fun getNumberInfo(number: Int): Single<String>
     suspend fun getRandomNumberInfo(): Flow<String>
     fun saveNumberFact(numberFactEntity: NumberFactEntity)
-    fun getHistory(): Single<List<NumberFactEntity>>
+    suspend fun getHistory(): Flow<List<NumberFactEntity>>
 
 }
