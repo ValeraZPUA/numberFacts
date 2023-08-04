@@ -120,7 +120,6 @@ dependencies {
     //Room
     implementation "androidx.room:room-runtime:$room"
     ksp "androidx.room:room-compiler:$room"
-    implementation "androidx.room:room-rxjava3:$room"
     implementation "androidx.room:room-ktx:$room"
 
 

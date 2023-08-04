@@ -13,10 +13,10 @@ import kotlinx.coroutines.flow.Flow
 interface NumberFactDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertFact(numberFact: NumberFactEntity)
+    suspend fun insertFact(numberFact: NumberFactEntity)
 
     @Query("SELECT * FROM ${Constants.FACTS_TABLE} WHERE number LIKE :number")
-    fun getFactByNumber(number: Int): Single<NumberFactEntity>
+    fun getFactByNumber(number: Int): Flow<NumberFactEntity>
 
     @Query("SELECT * FROM ${Constants.FACTS_TABLE}")
     fun getAllFacts(): Flow<List<NumberFactEntity>>

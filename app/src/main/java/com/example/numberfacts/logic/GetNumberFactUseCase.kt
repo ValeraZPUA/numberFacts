@@ -2,6 +2,7 @@ package com.example.numberfacts.logic
 
 import com.example.numberfacts.data.NumbersRepo
 import com.example.numberfacts.data.models.NumberItem
+import com.example.numberfacts.db.entities.NumberFactEntity
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -21,7 +22,7 @@ class GetNumberFactUseCase @Inject constructor(
                     fact = it
                 )
             }
-            /*.map {
+            .map {
                 numbersRepo.saveNumberFact(
                     NumberFactEntity(
                         number = it.number,
@@ -29,7 +30,7 @@ class GetNumberFactUseCase @Inject constructor(
                     )
                 )
                 it
-            }*/
+            }
     }
 
 }

@@ -23,7 +23,7 @@ class NumbersRepoImpl @Inject constructor(
         }
     }
 
-    override fun saveNumberFact(numberFactEntity: NumberFactEntity) {
+    override suspend fun saveNumberFact(numberFactEntity: NumberFactEntity) {
         numberFactDao
             .insertFact(numberFactEntity)
     }
