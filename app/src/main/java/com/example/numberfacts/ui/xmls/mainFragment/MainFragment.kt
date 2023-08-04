@@ -84,7 +84,7 @@ class MainFragment : Fragment(), OnFactClickListener {
     }
 
     private fun getHistory() {
-        viewModel.getHistory()
+//        viewModel.getHistory()
     }
 
     private fun showToast(message: String) {

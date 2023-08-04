@@ -1,6 +1,6 @@
 package com.example.numberfacts.ui.screens.mainScreen
 
-import android.util.Log
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
@@ -22,9 +23,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -34,7 +37,9 @@ import com.example.numberfacts.ui.theme.PADDING_DEFAULT
 import com.example.numberfacts.ui.theme.Purple500
 import com.example.numberfacts.ui.widgetes.NumberFactWidget
 import com.example.numberfacts.ui.xmls.mainFragment.MainFragmentViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
+@ExperimentalCoroutinesApi
 @ExperimentalMaterial3Api
 @Composable
 fun MainScreen(
@@ -46,17 +51,18 @@ fun MainScreen(
     var inputFieldState by remember {
         mutableStateOf("")
     }
-    
-    val mockedListData = viewModel.getMockedList()
 
-    val history = viewModel.numberFactsHistory.collectAsState()
-    Log.d("tag22", "MainScreen: ${history.value}")
+    val history by viewModel.numberFactsHistory.collectAsState()
+    viewModel.getHistory()
+
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(PADDING_DEFAULT, calculateTopPadding + PADDING_DEFAULT, PADDING_DEFAULT, PADDING_DEFAULT)
     ) {
         TextField(
+            modifier = Modifier
+                .fillMaxWidth(),
             value = inputFieldState,
             onValueChange = {
                 inputFieldState = it
@@ -70,8 +76,9 @@ fun MainScreen(
             colors = TextFieldDefaults.colors(
                 unfocusedContainerColor = Color.White
             ),
-            modifier = Modifier
-                .fillMaxWidth()
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Number
+            )
         )
 
         Button(
@@ -79,7 +86,9 @@ fun MainScreen(
                 containerColor = Purple500
             ),
             shape = MaterialTheme.shapes.small,
-            onClick = {}
+            onClick = {
+                viewModel.getNumberFact(inputFieldState)
+            }
         ) {
             Text(
                 text = stringResource(id = R.string.get_fact)
@@ -104,20 +113,33 @@ fun MainScreen(
                 .height(2.dp),
             color = Color.Black
         )
-        
+
+        HandleFactsHistory(
+            history = history,
+            navHostController = navHostController
+        )
+    }
+}
+
+@Composable
+fun HandleFactsHistory(
+    history: MainFragmentViewModel.HistoryState,
+    navHostController: NavHostController,
+) {
+    if (history is MainFragmentViewModel.HistoryState.SuccessState) {
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(0.dp, PADDING_DEFAULT, 0.dp, 0.dp),
         ) {
-            itemsIndexed(mockedListData) {index, item ->  
+            itemsIndexed(history.history) { index, item ->
                 NumberFactWidget(
                     number = item.number,
                     fact = item.fact,
                 ) { number, fact ->
                     navHostController.navigate("numberFact/${number}/${fact}")
                 }
-                if (index < mockedListData.lastIndex) {
+                if (index < history.history.lastIndex) {
                     Divider(
                         modifier = Modifier
                             .height(8.dp),
@@ -125,6 +147,15 @@ fun MainScreen(
                     )
                 }
             }
+        }
+    } else {
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(
+                text = "No history"
+            )
         }
     }
 }
