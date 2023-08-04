@@ -99,7 +99,9 @@ fun MainScreen(
                 containerColor = Purple500
             ),
             shape = MaterialTheme.shapes.small,
-            onClick = {}
+            onClick = {
+                viewModel.getRandomNumberFact()
+            }
         ) {
             Text(
                 text = stringResource(id = R.string.get_fact_about_random_number)

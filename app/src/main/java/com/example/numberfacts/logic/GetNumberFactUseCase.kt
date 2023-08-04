@@ -2,26 +2,26 @@ package com.example.numberfacts.logic
 
 import com.example.numberfacts.data.NumbersRepo
 import com.example.numberfacts.data.models.NumberItem
-import com.example.numberfacts.db.entities.NumberFactEntity
-import io.reactivex.rxjava3.core.Single
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
+@FlowPreview
 class GetNumberFactUseCase @Inject constructor(
     private val numbersRepo: NumbersRepo
 ) {
 
-    fun getNumberInfo(number: Int): Single<NumberItem> {
+    suspend fun getNumberInfo(number: Int): Flow<NumberItem> {
         return numbersRepo
             .getNumberInfo(number)
-            .flatMap {
-                Single.just(
-                    NumberItem(
-                        number = number,
-                        fact = it
-                    )
+            .map {
+                NumberItem(
+                    number = number,
+                    fact = it
                 )
             }
-            .map {
+            /*.map {
                 numbersRepo.saveNumberFact(
                     NumberFactEntity(
                         number = it.number,
@@ -29,7 +29,7 @@ class GetNumberFactUseCase @Inject constructor(
                     )
                 )
                 it
-            }
+            }*/
     }
 
 }
