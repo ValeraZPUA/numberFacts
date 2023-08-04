@@ -36,7 +36,6 @@ import com.example.numberfacts.R
 import com.example.numberfacts.ui.theme.PADDING_DEFAULT
 import com.example.numberfacts.ui.theme.Purple500
 import com.example.numberfacts.ui.widgetes.NumberFactWidget
-import com.example.numberfacts.ui.xmls.mainFragment.MainFragmentViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
@@ -45,7 +44,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 fun MainScreen(
     calculateTopPadding: Dp,
     navHostController: NavHostController,
-    viewModel: MainFragmentViewModel = hiltViewModel()
+    viewModel: MainScreenViewModel = hiltViewModel()
 ) {
 
     var inputFieldState by remember {
@@ -123,10 +122,10 @@ fun MainScreen(
 
 @Composable
 fun HandleFactsHistory(
-    history: MainFragmentViewModel.HistoryState,
+    history: MainScreenViewModel.HistoryState,
     navHostController: NavHostController,
 ) {
-    if (history is MainFragmentViewModel.HistoryState.SuccessState) {
+    if (history is MainScreenViewModel.HistoryState.SuccessState) {
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()

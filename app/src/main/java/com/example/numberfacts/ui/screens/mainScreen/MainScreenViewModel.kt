@@ -1,4 +1,4 @@
-package com.example.numberfacts.ui.xmls.mainFragment
+package com.example.numberfacts.ui.screens.mainScreen
 
 import android.annotation.SuppressLint
 import android.util.Log
@@ -23,7 +23,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MainFragmentViewModel @Inject constructor(
+class MainScreenViewModel @Inject constructor(
     private val getNumberFactUseCase: GetNumberFactUseCase,
     private val getRandomNumberFactUseCase: GetRandomNumberFactUseCase,
     private val getHistoryNumberFactUseCase: GetHistoryNumberFactUseCase
