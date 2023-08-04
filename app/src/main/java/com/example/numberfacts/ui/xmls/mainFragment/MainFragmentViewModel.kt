@@ -91,6 +91,23 @@ class MainFragmentViewModel @Inject constructor(
             )
     }
 
+    fun getMockedList(): List<NumberItem> {
+        return listOf(
+            NumberItem(
+                number = 1,
+                fact = "One"
+            ),
+            NumberItem(
+                number = 2,
+                fact = "Two"
+            ),
+            NumberItem(
+                number = 3,
+                fact = "Three"
+            )
+        )
+    }
+
     sealed class NumberFactState {
 
         data class SuccessState(

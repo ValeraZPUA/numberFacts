@@ -25,38 +25,27 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.numberfacts.R
-import com.example.numberfacts.data.models.NumberItem
 import com.example.numberfacts.ui.theme.PADDING_DEFAULT
 import com.example.numberfacts.ui.theme.Purple500
 import com.example.numberfacts.ui.widgetes.NumberFactWidget
+import com.example.numberfacts.ui.xmls.mainFragment.MainFragmentViewModel
 
 @ExperimentalMaterial3Api
 @Composable
 fun MainScreen(
     calculateTopPadding: Dp,
-    navHostController: NavHostController
+    navHostController: NavHostController,
+    viewModel: MainFragmentViewModel = hiltViewModel()
 ) {
 
     var inputFieldState by remember {
         mutableStateOf("")
     }
     
-    val mockedListData = arrayListOf(
-        NumberItem(
-            number = 1,
-            fact = "One"
-        ),
-        NumberItem(
-            number = 2,
-            fact = "Two"
-        ),
-        NumberItem(
-            number = 3,
-            fact = "Three"
-        )
-    )
+    val mockedListData = viewModel.getMockedList()
 
     Column(
         modifier = Modifier

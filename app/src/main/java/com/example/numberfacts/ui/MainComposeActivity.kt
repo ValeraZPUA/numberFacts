@@ -11,7 +11,9 @@ import androidx.navigation.compose.rememberNavController
 import com.example.numberfacts.navigation.NavGraph
 import com.example.numberfacts.ui.appBar.ApplicationTopBar
 import com.example.numberfacts.ui.theme.NumberFactsTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 @ExperimentalMaterial3Api
 class MainComposeActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
