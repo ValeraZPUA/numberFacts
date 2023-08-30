@@ -18,6 +18,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -53,6 +54,14 @@ fun MainScreen(
 
     val history by viewModel.numberFactsHistory.collectAsState()
     viewModel.getHistory()
+
+    LaunchedEffect(key1 = Any()) {
+        viewModel.numberFact.collect {
+            if (it is MainScreenViewModel.NumberFactState.SuccessState) {
+                navHostController.navigate("numberFact/${it.numberFact.number}/${it.numberFact.fact}")
+            }
+        }
+    }
 
     Column(
         modifier = Modifier

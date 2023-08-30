@@ -1,13 +1,11 @@
 package com.example.numberfacts.ui.screens.mainScreen
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.numberfacts.data.models.NumberItem
 import com.example.numberfacts.logic.GetHistoryNumberFactUseCase
 import com.example.numberfacts.logic.GetNumberFactUseCase
 import com.example.numberfacts.logic.GetRandomNumberFactUseCase
-import com.example.numberfacts.utils.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -26,12 +24,6 @@ class MainScreenViewModel @Inject constructor(
     private val getRandomNumberFactUseCase: GetRandomNumberFactUseCase,
     private val getHistoryNumberFactUseCase: GetHistoryNumberFactUseCase
 ) : ViewModel() {
-
-    private val _noNumberEnteredError = SingleLiveEvent<Boolean>()
-    val noNumberEnteredError get() = _noNumberEnteredError as LiveData<Boolean>
-
-    private val _commonError = SingleLiveEvent<Boolean>()
-    val commonError get() = _commonError as LiveData<Boolean>
 
     val numberFact get() = _numberFact as SharedFlow<NumberFactState>
     private val _numberFact = MutableSharedFlow<NumberFactState>(extraBufferCapacity = 1)
