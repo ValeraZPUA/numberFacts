@@ -37,6 +37,7 @@ import com.example.numberfacts.R
 import com.example.numberfacts.ui.theme.PADDING_DEFAULT
 import com.example.numberfacts.ui.theme.Purple500
 import com.example.numberfacts.ui.widgetes.NumberFactWidget
+import com.example.numberfacts.utils.recomposeHighlighter
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
@@ -70,7 +71,8 @@ fun MainScreen(
     ) {
         TextField(
             modifier = Modifier
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .recomposeHighlighter(),
             value = inputFieldState,
             onValueChange = {
                 inputFieldState = it
@@ -90,6 +92,7 @@ fun MainScreen(
         )
 
         Button(
+            modifier = Modifier.recomposeHighlighter(),
             colors = ButtonDefaults.buttonColors(
                 containerColor = Purple500
             ),
@@ -104,6 +107,7 @@ fun MainScreen(
         }
 
         Button(
+            modifier = Modifier.recomposeHighlighter(),
             colors = ButtonDefaults.buttonColors(
                 containerColor = Purple500
             ),
@@ -113,6 +117,7 @@ fun MainScreen(
             }
         ) {
             Text(
+                modifier = Modifier.recomposeHighlighter(),
                 text = stringResource(id = R.string.get_fact_about_random_number)
             )
         }
@@ -120,7 +125,8 @@ fun MainScreen(
         Divider(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(2.dp),
+                .height(2.dp)
+                .recomposeHighlighter(),
             color = Color.Black
         )
 
@@ -140,7 +146,8 @@ fun HandleFactsHistory(
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(0.dp, PADDING_DEFAULT, 0.dp, 0.dp),
+                .padding(0.dp, PADDING_DEFAULT, 0.dp, 0.dp)
+                .recomposeHighlighter(),
         ) {
             itemsIndexed(history.history) { index, item ->
                 NumberFactWidget(
@@ -160,7 +167,7 @@ fun HandleFactsHistory(
         }
     } else {
         Box(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier.fillMaxSize().recomposeHighlighter(),
             contentAlignment = Alignment.Center
         ) {
             Text(
