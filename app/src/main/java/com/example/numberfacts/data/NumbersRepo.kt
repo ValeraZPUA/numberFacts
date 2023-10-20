@@ -1,7 +1,6 @@
 package com.example.numberfacts.data
 
 import com.example.numberfacts.db.entities.NumberFactEntity
-import io.reactivex.rxjava3.core.Single
 import kotlinx.coroutines.flow.Flow
 
 interface NumbersRepo {
