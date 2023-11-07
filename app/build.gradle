@@ -87,11 +87,4 @@ dependencies {
     implementation "io.reactivex.rxjava3:rxandroid:$rxAndroid"
     implementation "com.squareup.retrofit2:adapter-rxjava3:$rxAdapter"
 
-    //Recycler view
-    implementation "androidx.recyclerview:recyclerview:$recyclerView"
-
-    //Room
-    implementation "androidx.room:room-runtime:$room"
-    kapt "androidx.room:room-compiler:$room"
-    implementation "androidx.room:room-rxjava3:$room"
 }
