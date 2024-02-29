@@ -5,9 +5,9 @@ import kotlinx.coroutines.flow.Flow
 
 interface NumbersRepo {
 
-    suspend fun getNumberInfo(number: Int): Flow<String>
-    suspend fun getRandomNumberInfo(): Flow<String>
+    fun getNumberInfo(number: Int): Flow<String>
+    fun getRandomNumberInfo(): Flow<String>
     suspend fun saveNumberFact(numberFactEntity: NumberFactEntity)
-    suspend fun getHistory(): Flow<List<NumberFactEntity>>
+    fun getHistory(): Flow<List<NumberFactEntity>>
 
 }

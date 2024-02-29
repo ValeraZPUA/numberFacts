@@ -12,12 +12,12 @@ class NumbersRepoImpl @Inject constructor(
     private val numberFactDao: NumberFactDao
 ) : NumbersRepo {
 
-    override suspend fun getNumberInfo(number: Int): Flow<String> {
+    override fun getNumberInfo(number: Int): Flow<String> {
         return flow {
             emit(requestsApi.getNumberInfo(number))
         }
     }
-    override suspend fun getRandomNumberInfo(): Flow<String> {
+    override fun getRandomNumberInfo(): Flow<String> {
         return flow {
             emit(requestsApi.getRandomNumberInfoCor())
         }
@@ -28,7 +28,7 @@ class NumbersRepoImpl @Inject constructor(
             .insertFact(numberFactEntity)
     }
 
-    override suspend fun getHistory(): Flow<List<NumberFactEntity>> {
+    override fun getHistory(): Flow<List<NumberFactEntity>> {
         return numberFactDao
             .getAllFacts()
     }

@@ -19,7 +19,6 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -32,12 +31,12 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.example.numberfacts.R
 import com.example.numberfacts.ui.theme.PADDING_DEFAULT
 import com.example.numberfacts.ui.theme.Purple500
 import com.example.numberfacts.ui.widgetes.NumberFactWidget
-import com.example.numberfacts.utils.recomposeHighlighter
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
@@ -53,8 +52,7 @@ fun MainScreen(
         mutableStateOf("")
     }
 
-    val history by viewModel.numberFactsHistory.collectAsState()
-    viewModel.getHistory()
+    val history by viewModel.getHistory().collectAsStateWithLifecycle()
 
     LaunchedEffect(key1 = Any()) {
         viewModel.numberFact.collect {
@@ -71,8 +69,7 @@ fun MainScreen(
     ) {
         TextField(
             modifier = Modifier
-                .fillMaxWidth()
-                .recomposeHighlighter(),
+                .fillMaxWidth(),
             value = inputFieldState,
             onValueChange = {
                 inputFieldState = it
@@ -92,7 +89,6 @@ fun MainScreen(
         )
 
         Button(
-            modifier = Modifier.recomposeHighlighter(),
             colors = ButtonDefaults.buttonColors(
                 containerColor = Purple500
             ),
@@ -107,7 +103,6 @@ fun MainScreen(
         }
 
         Button(
-            modifier = Modifier.recomposeHighlighter(),
             colors = ButtonDefaults.buttonColors(
                 containerColor = Purple500
             ),
@@ -117,7 +112,6 @@ fun MainScreen(
             }
         ) {
             Text(
-                modifier = Modifier.recomposeHighlighter(),
                 text = stringResource(id = R.string.get_fact_about_random_number)
             )
         }
@@ -125,8 +119,7 @@ fun MainScreen(
         Divider(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(2.dp)
-                .recomposeHighlighter(),
+                .height(2.dp),
             color = Color.Black
         )
 
@@ -147,7 +140,6 @@ fun HandleFactsHistory(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(0.dp, PADDING_DEFAULT, 0.dp, 0.dp)
-                .recomposeHighlighter(),
         ) {
             itemsIndexed(history.history) { index, item ->
                 NumberFactWidget(
@@ -167,7 +159,7 @@ fun HandleFactsHistory(
         }
     } else {
         Box(
-            modifier = Modifier.fillMaxSize().recomposeHighlighter(),
+            modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
             Text(
