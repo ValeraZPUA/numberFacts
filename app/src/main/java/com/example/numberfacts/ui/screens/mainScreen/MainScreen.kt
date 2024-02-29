@@ -57,7 +57,7 @@ fun MainScreen(
     LaunchedEffect(key1 = Any()) {
         viewModel.numberFact.collect {
             if (it is MainScreenViewModel.NumberFactState.SuccessState) {
-                navHostController.navigate("numberFact/${it.numberFact.number}/${it.numberFact.fact}")
+//                navHostController.navigate("numberFact/${it.numberFact.number}/${it.numberFact.fact}")
             }
         }
     }
@@ -102,6 +102,7 @@ fun MainScreen(
             )
         }
 
+//        val getRandomNumberFact = remember(viewModel) { { viewModel.getRandomNumberFact() } } - to prevent recomposition of button
         Button(
             colors = ButtonDefaults.buttonColors(
                 containerColor = Purple500
@@ -109,6 +110,7 @@ fun MainScreen(
             shape = MaterialTheme.shapes.small,
             onClick = {
                 viewModel.getRandomNumberFact()
+//                getRandomNumberFact
             }
         ) {
             Text(
