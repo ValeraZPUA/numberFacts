@@ -6,7 +6,9 @@ import com.example.numberfacts.db.entities.NumberFactEntity
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class NumbersRepoImpl @Inject constructor(
     private val requestsApi: RequestsApi,
     private val numberFactDao: NumberFactDao

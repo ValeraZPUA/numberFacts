@@ -2,10 +2,7 @@ package com.example.numberfacts.ui.screens.mainScreen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.numberfacts.api.RequestsApi
-import com.example.numberfacts.data.NumbersRepo
 import com.example.numberfacts.data.models.NumberItem
-import com.example.numberfacts.db.daos.NumberFactDao
 import com.example.numberfacts.db.entities.toNumberItem
 import com.example.numberfacts.logic.GetHistoryNumberFactUseCase
 import com.example.numberfacts.logic.GetNumberFactUseCase
@@ -26,10 +23,7 @@ import javax.inject.Inject
 class MainScreenViewModel @Inject constructor(
     private val getNumberFactUseCase: GetNumberFactUseCase,
     private val getRandomNumberFactUseCase: GetRandomNumberFactUseCase,
-    private val getHistoryNumberFactUseCase: GetHistoryNumberFactUseCase,
-    private val numberFactDao: NumberFactDao,
-    private val requestsApi: RequestsApi,
-    private val numbersRepo: NumbersRepo
+    private val getHistoryNumberFactUseCase: GetHistoryNumberFactUseCase
 ) : ViewModel() {
 
     val numberFact get() = _numberFact as SharedFlow<NumberFactState>
@@ -41,10 +35,6 @@ class MainScreenViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             getHistoryNumberFactUseCase
                 .getHistory()
-//            numbersRepo
-//                .getHistory()
-//            numberFactDao
-//                .getAllFacts()
                 .collect { numberFactEntityList ->
                     val numberItemList = arrayListOf<NumberItem>()
                     numberItemList.addAll(numberFactEntityList.map { it.toNumberItem() })
@@ -62,15 +52,7 @@ class MainScreenViewModel @Inject constructor(
 
     fun getNumberFact(number: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            /*val fact = requestsApi.getNumberInfo(number.toInt())
-            numberFactDao.insertFact(
-                NumberFactEntity(
-                    number = number.toInt(),
-                    fact = fact
-                )
-            )*/
-//            _numberFact.tryEmit(NumberFactState.SuccessState(NumberItem(number.toInt(),fact)))
-            try {
+             try {
                 getNumberFactUseCase
                     .getNumberInfo(number.toInt())
                     .collect {
@@ -100,25 +82,6 @@ class MainScreenViewModel @Inject constructor(
     @ExperimentalCoroutinesApi
     fun getHistory(): StateFlow<HistoryState> {
         return _numberFactsHistory
-
-        /*viewModelScope.launch(Dispatchers.IO) {
-            try {
-                getHistoryNumberFactUseCase
-                    .getHistory()
-                    .collect {
-                        _numberFactsHistory
-                            .tryEmit(
-                                if (it.isEmpty()) {
-                                    HistoryState.EmptyState
-                                } else {
-                                    HistoryState.SuccessState(it)
-                                }
-                            )
-                    }
-            } catch (e: java.lang.Exception) {
-                // _commonError.value = true //java.lang.IllegalStateException: Cannot invoke setValue on a background thread
-            }
-        }*/
     }
 
     sealed class NumberFactState {

@@ -57,7 +57,7 @@ fun MainScreen(
     LaunchedEffect(key1 = Any()) {
         viewModel.numberFact.collect {
             if (it is MainScreenViewModel.NumberFactState.SuccessState) {
-//                navHostController.navigate("numberFact/${it.numberFact.number}/${it.numberFact.fact}")
+                navHostController.navigate("numberFact/${it.numberFact.number}/${it.numberFact.fact}")
             }
         }
     }
